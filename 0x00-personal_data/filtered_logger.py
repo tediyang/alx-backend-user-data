@@ -53,6 +53,6 @@ class RedactingFormatter(logging.Formatter):
         Returns:
             str: new formatted message with logged attributes
         """
-        record.msg: str = filter_datum(self.fields, self.REDACTION,
+        record.msg= filter_datum(self.fields, self.REDACTION,
                                   record.getMessage(), self.SEPARATOR)
         return super(RedactingFormatter, self).format(record)
