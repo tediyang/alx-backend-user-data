@@ -35,11 +35,24 @@ class RedactingFormatter(logging.Formatter):
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
 
-    def __init__(self, fields):
+    def __init__(self, fields: List[str]) -> None:
+        """
+        intialize the constructor variables
+        Args:
+            fields (List[str]): the data to encrypt
+        """
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
+        """
+        format the message
+        Args:
+            record (logging.LogRecord): the logged data
+
+        Returns:
+            str: new formatted message with logged attributes
+        """
         record.msg = filter_datum(self.fields, self.REDACTION,
                                   record.getMessage(), self.SEPARATOR)
         return super(RedactingFormatter, self).format(record)
