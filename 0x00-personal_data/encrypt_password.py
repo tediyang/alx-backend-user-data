@@ -2,7 +2,7 @@
 """
 Encrypting password using bcrypt
 """
-from bcrypt import hashpw, gensalt
+import bcrypt
 
 
 def hash_password(password: str) -> bytes:
@@ -14,4 +14,4 @@ def hash_password(password: str) -> bytes:
     Returns:
         str: the byte encrypted data
     """
-    return hashpw(password, gensalt())
+    return bcrypt.hashpw(password, bcrypt.gensalt())
