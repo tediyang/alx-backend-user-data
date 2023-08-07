@@ -4,7 +4,7 @@
     string.
 """
 import re
-from typing import List, Literal
+from typing import List
 import logging
 
 
@@ -28,29 +28,30 @@ def filter_datum(fields: List[str], redaction: str, message: str,
 
 
 class RedactingFormatter(logging.Formatter):
-    """
-    Redacting Formatter class for filtering PII fields
+    """ Redacting Formatter class
     """
 
-    REDACTION = "***"
-    FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
-    SEPARATOR = ";"
+    REDACTION: str = "***"
+    FORMAT: str = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
+    SEPARATOR: str = ";"
 
-    def __init__(self, fields: List[str]):
+    def __init__(self, fields: List[str]) -> None:
         """
-        Constructor method for RedactingFormatter class
-
+        intialize the constructor variables
         Args:
-            fields: list of fields to redact in log messages
+            fields (List[str]): the data to encrypt
         """
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
         """
-        Formats the specified log record as text.
+        format the message
+        Args:
+            record (logging.LogRecord): the logged data
 
-        Filters values in incoming log records using filter_datum.
+        Returns:
+            str: new formatted message with logged attributes
         """
         record.msg = filter_datum(self.fields, self.REDACTION,
                                   record.getMessage(), self.SEPARATOR)
