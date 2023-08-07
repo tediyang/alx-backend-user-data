@@ -22,7 +22,7 @@ def filter_datum(fields: List[str], redaction: str, message: str,
         separating all fields in the log line (message).
     """
     for key in fields:
-        message = re.sub(r"({}=)[^{}]+".format(key, separator),
+        message: str = re.sub(r"({}=)[^{}]+".format(key, separator),
                          r"\1{}".format(redaction), message)
     return message
 
@@ -53,6 +53,6 @@ class RedactingFormatter(logging.Formatter):
         Returns:
             str: new formatted message with logged attributes
         """
-        record.msg= filter_datum(self.fields, self.REDACTION,
+        record.msg = filter_datum(self.fields, self.REDACTION,
                                   record.getMessage(), self.SEPARATOR)
         return super(RedactingFormatter, self).format(record)
