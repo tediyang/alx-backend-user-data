@@ -4,7 +4,7 @@
     string.
 """
 import re
-from typing import List
+from typing import List, Literal
 import logging
 
 
@@ -31,9 +31,9 @@ class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
     """
 
-    REDACTION: str = "***"
-    FORMAT: str = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
-    SEPARATOR: str = ";"
+    REDACTION: Literal = "***"
+    FORMAT: Literal = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
+    SEPARATOR: Literal = ";"
 
     def __init__(self, fields: List[str]) -> None:
         """
@@ -53,6 +53,6 @@ class RedactingFormatter(logging.Formatter):
         Returns:
             str: new formatted message with logged attributes
         """
-        record.msg: str = filter_datum(self.fields, self.REDACTION,
+        record.msg = filter_datum(self.fields, self.REDACTION,
                                   record.getMessage(), self.SEPARATOR)
         return super(RedactingFormatter, self).format(record)
