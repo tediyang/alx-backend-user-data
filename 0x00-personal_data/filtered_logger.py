@@ -42,7 +42,7 @@ class RedactingFormatter(logging.Formatter):
             fields (List[str]): the data to encrypt
         """
         super(RedactingFormatter, self).__init__(self.FORMAT)
-        self.fields = fields
+        self.fields: List[str] = fields
 
     def format(self, record: logging.LogRecord) -> str:
         """
@@ -53,6 +53,6 @@ class RedactingFormatter(logging.Formatter):
         Returns:
             str: new formatted message with logged attributes
         """
-        record.msg = filter_datum(self.fields, self.REDACTION,
+        record.msg: str = filter_datum(self.fields, self.REDACTION,
                                   record.getMessage(), self.SEPARATOR)
         return super(RedactingFormatter, self).format(record)
