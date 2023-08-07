@@ -22,7 +22,7 @@ def filter_datum(fields: List[str], redaction: str, message: str,
         separating all fields in the log line (message).
     """
     for key in fields:
-        message: str = re.sub(r"({}=)[^{}]+".format(key, separator),
+        message = re.sub(r"({}=)[^{}]+".format(key, separator),
                          r"\1{}".format(redaction), message)
     return message
 
@@ -31,9 +31,9 @@ class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
     """
 
-    REDACTION = "***"
-    FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
-    SEPARATOR = ";"
+    REDACTION: str = "***"
+    FORMAT: str = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
+    SEPARATOR: str = ";"
 
     def __init__(self, fields: List[str]) -> None:
         """
