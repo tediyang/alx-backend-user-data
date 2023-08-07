@@ -6,7 +6,8 @@
 import re
 from typing import List
 import logging
-
+from os import environ
+import mysql
 
 
 # # PII fields to be redacted
