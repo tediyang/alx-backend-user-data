@@ -92,6 +92,8 @@ class BasicAuth(Auth):
             return None
 
         database = User.search()
+        if len(database) == 0:
+            return None
 
         for user in database:
             if user.email == user_email:
