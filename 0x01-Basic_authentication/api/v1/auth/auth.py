@@ -20,10 +20,7 @@ class Auth:
         Returns:
             bool: True if valid or False if not
         """
-        if not path:
-            return True
-
-        if not excluded_paths:
+        if not path or not excluded_paths:
             return True
 
         if path[-1] != '/':
@@ -45,7 +42,10 @@ class Auth:
         Returns:
             str: string
         """
-        return None
+        if not request or "Authorization" not in request.headers:
+            return None
+
+        return request.headers.get("Authorization")
 
     def current_user(self, request=None) -> TypeVar('User'):
         """
