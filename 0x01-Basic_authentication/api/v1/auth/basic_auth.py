@@ -32,8 +32,9 @@ class BasicAuth(Auth):
             return fetched.group(1)
         return None
 
-    def decode_base64_authorization_header(
-        self, base64_authorization_header: str) -> str:
+    def decode_base64_authorization_header(self,
+                                           base64_authorization_header: str
+                                           ) -> str:
         """
         decode base64 authorization header
 
@@ -43,8 +44,8 @@ class BasicAuth(Auth):
         Returns:
             str: the decoded string
         """
-        if not base64_authorization_header or type(
-            base64_authorization_header) != str:
+        if not base64_authorization_header or type(base64_authorization_header
+                                                   ) != str:
             return None
         try:
             data: bytes = base64.b64decode(base64_authorization_header)
