@@ -26,7 +26,8 @@ def handle_request() -> None:
     filter the request first before sending it.
     """
     if auth:
-        exclu = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+        exclu = ['/api/v1/status/', '/api/v1/unauthorized/',
+                 '/api/v1/forbidden/']
 
         if auth.require_auth(request.path, exclu):
             if not auth.authorization_header(request):
