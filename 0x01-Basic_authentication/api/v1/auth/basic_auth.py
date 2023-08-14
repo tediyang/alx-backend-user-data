@@ -6,6 +6,7 @@ from models.user import User
 import re
 import base64
 from typing import TypeVar
+from flask import abort
 
 
 class BasicAuth(Auth):
@@ -103,3 +104,36 @@ class BasicAuth(Auth):
             return None
         except Exception:
             return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """
+        Get the current user logged in
+
+        Args:
+            request (flask object): the recent request
+
+        Returns:
+            TypeVar('User'): the user logged in
+        """
+        header = self.authorization_header(request)
+        if not header:
+            return None
+
+        base = self.extract_base64_authorization_header(header)
+        if not base:
+            return None
+
+        decode_base = self.decode_base64_authorization_header(base)
+        if not decode_base:
+            return None
+
+        extra_cred = self.extract_user_credentials(decode_base)
+        if not extra_cred:
+            return None
+
+        user_obj = self.user_object_from_credentials(extra_cred[0],
+                                                     extra_cred[1])
+        if not user_obj:
+            return None
+
+        return user_obj
