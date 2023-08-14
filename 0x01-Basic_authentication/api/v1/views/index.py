@@ -32,3 +32,11 @@ def unauthorized() -> None:
     abort with 401 when accessed
     """
     abort(401)
+
+
+@app_views.route('/forbidden', strict_slashes=False)
+def forbidden() -> None:
+    """
+    abort with 403 when accessed
+    """
+    abort(403)
