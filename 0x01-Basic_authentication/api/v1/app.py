@@ -21,7 +21,10 @@ if getenv("AUTH_TYPE"):
 
 
 @app.before_request
-def handle_request():
+def handle_request() -> None:
+    """
+    filter the request first before sending it.
+    """
     if auth:
         exclu = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
 
