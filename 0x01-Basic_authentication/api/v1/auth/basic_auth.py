@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """ File that create a Basic Authentication Model
 """
-from api.v1.auth.auth import Auth
+from auth import Auth
 import re
+import base64
 
 
 class BasicAuth(Auth):
@@ -30,3 +31,24 @@ class BasicAuth(Auth):
         if fetched:
             return fetched.group(1)
         return None
+
+    def decode_base64_authorization_header(
+        self, base64_authorization_header: str) -> str:
+        """
+        decode base64 authorization header
+
+        Args:
+            base64_authorization_header (str): the encoded string
+
+        Returns:
+            str: the decoded string
+        """
+        if not base64_authorization_header or type(
+            base64_authorization_header) != str:
+            return None
+        try:
+            data: bytes = base64.b64decode(base64_authorization_header)
+            decoded_data: str = data.decode('utf-8')
+        except (base64.binascii.Error, UnicodeDecodeError):
+            return None
+        return decoded_data
