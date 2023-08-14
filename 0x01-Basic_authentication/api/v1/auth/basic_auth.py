@@ -12,8 +12,8 @@ class BasicAuth(Auth):
     Args:
         Auth (TypeVar('Auth')): the authentication model
     """
-    pass
-    def extract_base64_authorization_header(self, authorization_header: str) -> str:
+    def extract_base64_authorization_header(self,
+                                            authorization_header: str) -> str:
         """
         base64 authorization header
 
@@ -21,7 +21,7 @@ class BasicAuth(Auth):
             authorization_header (str): the string that start with basic.
 
         Returns:
-            str: the base64 string
+            str: the base64 string extracted
         """
         if not authorization_header or type(authorization_header) != str:
             return None
