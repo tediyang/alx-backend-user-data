@@ -2,8 +2,10 @@
 """ File that create a Basic Authentication Model
 """
 from api.v1.auth.auth import Auth
+from models.user import User
 import re
 import base64
+from typing import TypeVar
 
 
 class BasicAuth(Auth):
@@ -70,3 +72,35 @@ class BasicAuth(Auth):
         if not decoded or type(decoded) != str or ":" not in decoded:
             return None, None
         return tuple(decoded.split(":"))
+
+    def user_object_from_credentials(self, user_email: str,
+                                     user_pwd: str) -> TypeVar('User'):
+        """
+        return the user object gotten from the provided params
+
+        Args:
+            user_email (str): user email
+            user_pwd (str): user password
+
+        Returns:
+            TypeVar('User'): the user object
+        """
+        if not user_email or not user_pwd:
+            return None
+
+        if type(user_email) != str or type(user_pwd) != str:
+            return None
+
+        database = User.search()
+        if len(database) == 0:
+            user = User()
+            user.email = user_email
+            user.password = user_pwd
+            user.save()
+            return user
+
+        for user in database:
+            if user.email == user_email:
+                if user.is_valid_password(user_pwd):
+                    return user
+        return None
