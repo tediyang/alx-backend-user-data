@@ -91,12 +91,15 @@ class BasicAuth(Auth):
         if type(user_email) != str or type(user_pwd) != str:
             return None
 
-        database = User.search()
-        if len(database) == 0:
-            return None
+        try:
+            database = User.search()
+            if len(database) == 0:
+                return None
 
-        for user in database:
-            if user.email == user_email:
-                if user.is_valid_password(user_pwd):
-                    return user
-        return None
+            for user in database:
+                if user.email == user_email:
+                    if user.is_valid_password(user_pwd):
+                        return user
+            return None
+        except Exception:
+            return None
