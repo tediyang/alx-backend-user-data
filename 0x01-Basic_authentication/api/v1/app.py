@@ -35,6 +35,21 @@ def not_auth(error) -> str:
     return jsonify({"error": "Unauthorized"}), 401
 
 
+@app.errorhandler(403)
+def forbidden(error) -> str:
+    """
+    Error returned with forbidden message when a user is not allowed
+    to access the data.
+
+    Args:
+        error (Any): Error parameter
+
+    Returns:
+        str: jsonify string of the error message
+    """
+    return jsonify({"error": "Forbidden"}), 403
+
+
 if __name__ == "__main__":
     # host = getenv("API_HOST", "0.0.0.0")
     host = "0.0.0.0"
