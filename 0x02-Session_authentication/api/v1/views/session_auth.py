@@ -42,3 +42,18 @@ def session_login():
         return jsonify({"error": "no user found for this email"}), 404
     except Exception:
         return None
+
+
+@app_views.route('/auth_session/logout', methods=['DELETE'])
+def logout():
+    """
+    Logout the user.
+
+    Returns:
+        None.
+    """
+    from api.v1.app import auth
+
+    if not auth.destroy_session(request):
+        abort(404)
+    return jsonify({}), 200
