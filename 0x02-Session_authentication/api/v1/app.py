@@ -33,10 +33,12 @@ def handle_request() -> None:
     """
     if auth:
         exclu = ['/api/v1/status/', '/api/v1/unauthorized/',
-                 '/api/v1/forbidden/']
+                 '/api/v1/forbidden/', '/api/v1/auth_session/login/']
 
         if auth.require_auth(request.path, exclu):
-            if not auth.authorization_header(request):
+            auth_head = auth.authorization_header(request)
+            auth_cook = auth.session_cookie(request)
+            if not auth_head and not auth_cook:
                 abort(401)
             if not auth.current_user(request):
                 abort(403)
