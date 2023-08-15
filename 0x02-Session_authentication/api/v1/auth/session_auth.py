@@ -69,7 +69,7 @@ class SessionAuth(Auth):
 
     def destroy_session(self, request=None):
         """
-         deletes the user session / logout
+        deletes the user session / logout
 
         Args:
             request (_type_, optional): flask object reques.
@@ -86,5 +86,5 @@ class SessionAuth(Auth):
         if not user_id:
             return False
 
-        del self.user_id_by_session_id.get(sess_id)
+        del self.user_id_by_session_id[sess_id]
         return True
