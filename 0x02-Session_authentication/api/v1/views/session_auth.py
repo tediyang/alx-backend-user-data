@@ -12,24 +12,24 @@ def session_login():
     Get the session login and set cookie.
 
     Returns:
-        None 
+        None
     """
     email = request.form.get('email')
     password = request.form.get('password')
     if not email:
-        return jsonify({ "error": "email missing" }), 400
+        return jsonify({"error": "email missing"}), 400
     if not password:
-        return jsonify({ "error":"password missing" }), 400
+        return jsonify({"error": "password missing"}), 400
 
     try:
         database = User.search()
         if len(database) == 0:
-            return jsonify({ "error": "no user found for this email" }), 400
+            return jsonify({"error": "no user found for this email"}), 404
 
         for user in database:
             if user.email == email:
                 if not user.is_valid_password(password):
-                    return jsonify({ "error": "wrong password" }), 401
+                    return jsonify({"error": "wrong password"}), 401
                 else:
                     from api.v1.app import auth
                     from os import getenv
@@ -39,6 +39,6 @@ def session_login():
                     user_data.set_cookie(getenv('SESSION_NAME'), sess_id)
                     return user_data
 
-        return jsonify({ "error": "no user found for this email" }), 400
+        return jsonify({"error": "no user found for this email"}), 404
     except Exception:
         return None
