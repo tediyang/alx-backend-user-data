@@ -8,6 +8,12 @@ from models.user import User
 
 @app_views.route('/auth_session/login', methods=['POST'])
 def session_login():
+    """
+    Get the session login and set cookie.
+
+    Returns:
+        None 
+    """
     email = request.form.get('email')
     password = request.form.get('password')
     if not email:
