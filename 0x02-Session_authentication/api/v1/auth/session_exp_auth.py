@@ -47,12 +47,11 @@ class SessionExpAuth(SessionAuth):
         Returns:
             returns user_id
         """
-        if session_id is None or isinstance(session_id, str) is False:
+        if not session_id or not isinstance(session_id, str):
             return None
 
         session_dict = self.user_id_by_session_id.get(session_id)
-
-        if session_dict is None or 'created_at' not in session_dict:
+        if not session_dict or 'created_at' not in session_dict:
             return None
 
         if self.session_duration <= 0:
