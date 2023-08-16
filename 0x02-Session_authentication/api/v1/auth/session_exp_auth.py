@@ -47,23 +47,21 @@ class SessionExpAuth(SessionAuth):
         Returns:
             returns user_id
         """
-        if not session_id:
+        if session_id is None or isinstance(session_id, str) is False:
             return None
 
-        sess_dict = self.user_id_by_session_id.get(session_id)
-        if not sess_dict:
+        session_dict = self.user_id_by_session_id.get(session_id)
+
+        if session_dict is None or 'created_at' not in session_dict:
             return None
 
         if self.session_duration <= 0:
-            return sess_dict.get('user_id')
+            return session_dict.get('user_id')
 
-        created_time = sess_dict.get('create_at')
-        if not created_time:
-            return None
-
+        created_time = session_dict.get('created_at')
         session_elapsed = timedelta(seconds=self.session_duration)
 
         if created_time + session_elapsed < datetime.now():
             return None
 
-        return sess_dict.get('user_id')
+        return session_dict.get('user_id')
