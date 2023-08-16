@@ -51,16 +51,13 @@ class SessionExpAuth(SessionAuth):
             return None
 
         sess_dict = self.user_id_by_session_id.get(session_id)
-        if not sess_dict:
+        if not sess_dict or 'created_at' not in sess_dict:
             return None
 
         if self.session_duration <= 0:
             return sess_dict.get('user_id')
 
         created_time = sess_dict.get('create_at')
-        if not created_time:
-            return None
-
         session_elapsed = timedelta(seconds=self.session_duration)
 
         if created_time + session_elapsed < datetime.now():
