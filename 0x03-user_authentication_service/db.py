@@ -17,7 +17,7 @@ class DB:
         """ Initialize a new DB instance """
         self._engine = create_engine("sqlite:///a.db")
         # self._engine = create_engine('mysql+mysqlconnector://{}:{}@{}/{}'.
-        #                               format(user, pwd, host, db),
+        #                               format("gi_dev", "gandi", "localhost", "alx_auth"),
         #                               pool_pre_ping=True)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
@@ -52,7 +52,7 @@ class DB:
             kwargs (Dict[str: str]): the key-value pair.
         """
         try:
-            obj = self.__session.query(User).filter_by(**kwargs).first()
+            obj = self._session.query(User).filter_by(**kwargs).first()
         except TypeError:
             raise InvalidRequestError
         if not obj:
