@@ -6,6 +6,7 @@ from bcrypt import hashpw, checkpw, gensalt
 from db import DB
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
+from typing import Union as U
 from uuid import uuid4
 
 
@@ -96,3 +97,21 @@ class Auth:
             return None
 
         return sess_id
+
+    def get_user_from_session_id(self, session_id: str) -> U(User, None):
+        """
+        get the user from the provided session id
+
+        Args:
+            session_id (str): string
+
+        Returns:
+            User: current user object
+        """
+        if not session_id:
+            return None
+
+        try:
+            return self._db.find_user_by(session_id=session_id)
+        except Exception:
+            return None
