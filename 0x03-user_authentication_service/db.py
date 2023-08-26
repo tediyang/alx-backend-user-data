@@ -6,7 +6,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from user import Base, User
-from typing import Dict
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
 
@@ -45,15 +44,15 @@ class DB:
         self._session.commit()
         return new_user
 
-    def find_user_by(self, key_val: Dict) -> User:
+    def find_user_by(self, **kwargs) -> User:
         """
         find user by key-value pair and return the first result.
 
         Args:
-            key_val (Dict): the key-value pair.
+            kwargs (Dict[str: str]): the key-value pair.
         """
         try:
-            obj = self.__session.query(User).filter_by(**key_val).first()
+            obj = self.__session.query(User).filter_by(**kwargs).first()
         except TypeError:
             raise InvalidRequestError
         if not obj:
