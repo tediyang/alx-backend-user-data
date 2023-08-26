@@ -58,3 +58,16 @@ class DB:
         if not obj:
             raise NoResultFound
         return obj
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """ Finds user record and updates attributes """
+        user_found = self.find_user_by(id=user_id)
+
+        for key, value in kwargs.items():
+            if hasattr(user_found, key):
+                setattr(user_found, key, value)
+            else:
+                raise ValueError
+
+        self._session.commit()
+        return None
