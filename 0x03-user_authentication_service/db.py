@@ -6,6 +6,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from user import Base, User
+from typing import Dict
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import InvalidRequestError
 
 
 class DB:
@@ -14,6 +17,9 @@ class DB:
     def __init__(self) -> None:
         """ Initialize a new DB instance """
         self._engine = create_engine("sqlite:///a.db")
+        # self._engine = create_engine('mysql+mysqlconnector://{}:{}@{}/{}'.
+        #                               format(user, pwd, host, db),
+        #                               pool_pre_ping=True)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -38,3 +44,18 @@ class DB:
         self._session.add(new_user)
         self._session.commit()
         return new_user
+
+    def find_user_by(self, key_val: Dict) -> User:
+        """
+        find user by key-value pair and return the first result.
+
+        Args:
+            key_val (Dict): the key-value pair.
+        """
+        try:
+            obj = self.__session.query(User).filter_by(**key_val).first()
+        except TypeError:
+            raise InvalidRequestError
+        if not obj:
+            raise NoResultFound
+        return obj
