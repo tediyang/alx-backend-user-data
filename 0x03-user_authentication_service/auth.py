@@ -23,7 +23,7 @@ def _generate_uuid() -> str:
     """
     generates a unique UUID
     """
-    return uuid4()
+    return str(uuid4())
 
 
 class Auth:
@@ -75,4 +75,3 @@ class Auth:
 
         except Exception:
             return False
-
