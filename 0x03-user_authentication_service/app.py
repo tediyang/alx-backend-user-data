@@ -107,7 +107,11 @@ def update_password():
     reset = request.form.get("reset_token")
     new_pass = request.form.get("new_password")
 
-    user = AUTH.create_session(email)
+    sess_id = AUTH.create_session(email)
+    if not sess_id:
+        abort(403)
+
+    user = AUTH.get_user_from_session_id(sess_id)
     if not user:
         abort(403)
 
